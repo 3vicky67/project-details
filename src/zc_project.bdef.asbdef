@@ -1,0 +1,41 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_Project alias Project
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  // ADDED: Expose header action
+  use action generateInvoice;
+
+  use association _Tasks { create; with draft; }
+}
+
+define behavior for ZC_Task alias Task
+{
+  use update;
+  use delete;
+
+  use association _Project { with draft; }
+  use association _TimeEntries { create; with draft; }
+
+  // REMOVED: generateInvoice from here
+}
+
+define behavior for ZC_TimeEntry alias TimeEntry
+{
+  use update;
+  use delete;
+
+  use association _Project { with draft; }
+  use association _Task { with draft; }
+}

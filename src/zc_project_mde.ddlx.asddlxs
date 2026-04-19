@@ -1,0 +1,60 @@
+@Metadata.layer: #CORE
+@UI: { 
+  headerInfo: { typeName: 'Project', 
+                typeNamePlural: 'Projects', 
+                title: { type: #STANDARD, value: 'ProjectName' } } }
+annotate view ZC_Project with
+{
+  @UI.facet: [
+    { id: 'Project', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE, label: 'Project Details', position: 10 },
+    { id: 'Tasks', purpose: #STANDARD, type: #LINEITEM_REFERENCE, targetElement: '_Tasks', label: 'Tasks', position: 20 }
+  ]
+
+  @UI.hidden: true
+  ProjectUUID;
+
+  @EndUserText.label: 'Project ID'
+  @UI: { lineItem: [{ position: 10 }], identification: [{ position: 10 }] }
+  ProjectID;
+
+  @EndUserText.label: 'Project Name'
+  @UI: { lineItem: [{ position: 20 }], identification: [{ position: 20 }] }
+  ProjectName;
+
+  @EndUserText.label: 'Customer Name'
+  @UI: { lineItem: [{ position: 30 }], identification: [{ position: 30 }] }
+  CustomerName;
+
+  @EndUserText.label: 'Total Budget'
+  @UI: { lineItem: [{ position: 40 }], identification: [{ position: 40 }] }
+  TotalBudget;
+
+  @EndUserText.label: 'Currency'
+  CurrencyCode;
+
+  // --- DOWNLOAD LINK SECTION ---
+  @EndUserText.label: 'Invoice File'
+  @UI: { lineItem: [{ position: 45 }], identification: [{ position: 45 }] }
+  InvoiceContent;
+
+  @UI.hidden: true
+  InvoiceMimeType;
+
+  @EndUserText.label: 'File Name'
+  @UI: { identification: [{ position: 46 }] }
+  InvoiceFileName;
+  // ------------------------------
+
+  @EndUserText.label: 'Project Status'
+  @UI: { 
+    lineItem: [
+      { position: 50 },
+      { type: #FOR_ACTION, dataAction: 'generateInvoice', label: 'Generate Invoice Bill' }
+    ], 
+    identification: [
+      { position: 50 },
+      { type: #FOR_ACTION, dataAction: 'generateInvoice', label: 'Generate Invoice Bill' }
+    ] 
+  }
+  Status;
+}

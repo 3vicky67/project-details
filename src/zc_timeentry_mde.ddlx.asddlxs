@@ -1,0 +1,34 @@
+@Metadata.layer: #CORE
+@UI: { 
+  headerInfo: { typeName: 'Time Entry', 
+                typeNamePlural: 'Time Entries', 
+                title: { type: #STANDARD, value: 'EntryDate' } } }
+annotate view ZC_TimeEntry with
+{
+  @UI.facet: [
+    { id: 'TimeEntry', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE, label: 'Time Entry Details', position: 10 }
+  ]
+
+  @UI.hidden: true
+  TimeEntryUUID;
+
+  @UI.hidden: true
+  TaskUUID;
+
+  @UI.hidden: true
+  ProjectUUID;
+
+    @EndUserText.label: 'ENTRY DATE'
+  @UI: { lineItem: [{ position: 10 }], identification: [{ position: 10 }] }
+  EntryDate;
+
+    @EndUserText.label: 'HOURS WORKED'
+  @UI: { lineItem: [{ position: 20 }], identification: [{ position: 20 }] }
+  HoursWorked;
+
+  @EndUserText.label: 'Unit'
+  UnitOfMeasure;
+    @EndUserText.label: 'DESCRIPTION'
+  @UI: { lineItem: [{ position: 30 }], identification: [{ position: 30 }] }
+  WorkDescription;
+}

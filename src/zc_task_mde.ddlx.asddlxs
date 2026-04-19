@@ -1,0 +1,37 @@
+@Metadata.layer: #CORE
+@UI: { 
+  headerInfo: { typeName: 'Task', 
+                typeNamePlural: 'Tasks', 
+                title: { type: #STANDARD, value: 'TaskName' } } }
+annotate view ZC_Task with
+{
+  @UI.facet: [
+    { id: 'Task', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE, label: 'Task Details', position: 10 },
+    { id: 'TimeEntries', purpose: #STANDARD, type: #LINEITEM_REFERENCE, targetElement: '_TimeEntries', label: 'Time Entries', position: 20 }
+  ]
+
+  @UI.hidden: true
+  TaskUUID;
+
+  @UI.hidden: true
+  ProjectUUID;
+
+  @EndUserText.label: 'Task Name'
+  @UI: { lineItem: [{ position: 10 }], identification: [{ position: 10 }] }
+  TaskName;
+
+  @EndUserText.label: 'Assigned Consultant'
+  @UI: { lineItem: [{ position: 20 }], identification: [{ position: 20 }] }
+  AssignedConsultant;
+
+  @EndUserText.label: 'Planned Hours'
+  @UI: { lineItem: [{ position: 30 }], identification: [{ position: 30 }] }
+  PlannedHours;
+
+  @EndUserText.label: 'Unit'
+  UnitOfMeasure;
+
+  @EndUserText.label: 'Task Status'
+  @UI: { lineItem: [{ position: 40 }], identification: [{ position: 40 }] }
+  Status; // REMOVED THE ACTION FROM TASK
+}

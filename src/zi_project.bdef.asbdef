@@ -1,0 +1,106 @@
+managed implementation in class zbp_i_project unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_Project alias Project
+persistent table zproject
+draft table zproject_d
+lock master total etag LocalLastChangedAt
+authorization master ( instance )
+etag master LastChangedAt
+{
+  create; update; delete;
+
+  field ( readonly, numbering : managed ) ProjectUUID;
+  field ( readonly ) ProjectID;
+
+  determination setProjectID on modify { create; }
+
+  // ADDED: Header action
+  action generateInvoice result [1] $self;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  association _Tasks { create; with draft; }
+
+  mapping for zproject
+  {
+    ProjectUUID = project_uuid;
+    ProjectID = project_id;
+    ProjectName = project_name;
+     CustomerName = customer_name;
+     TotalBudget = total_budget;
+     CurrencyCode = currency_code;
+     Status = status;
+     InvoiceContent = invoice_content;
+     InvoiceMimeType = invoice_mime_type;
+     InvoiceFileName = invoice_file_name;
+     CreatedBy = created_by;
+     CreatedAt = created_at;
+     LastChangedBy = last_changed_by;
+     LastChangedAt = last_changed_at;
+     LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_Task alias Task
+persistent table ztask2
+draft table ztask_d
+lock dependent by _Project
+authorization dependent by _Project
+etag master LocalLastChangedAt
+{
+  update; delete;
+
+  field ( readonly, numbering : managed ) TaskUUID;
+  field ( readonly ) ProjectUUID;
+
+  association _Project { with draft; }
+  association _TimeEntries { create; with draft; }
+
+  // REMOVED: Action from here
+
+  mapping for ztask2
+  {
+    TaskUUID = task_uuid;
+    ProjectUUID = project_uuid;
+    TaskName = task_name;
+    AssignedConsultant = assigned_consultant;
+    PlannedHours = planned_hours;
+    UnitOfMeasure = unit_of_measure;
+    Status = status;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_TimeEntry alias TimeEntry
+persistent table ztime_entry
+draft table ztime_d
+lock dependent by _Project
+authorization dependent by _Project
+etag master LocalLastChangedAt
+{
+  update; delete;
+
+  field ( readonly, numbering : managed ) TimeEntryUUID;
+  field ( readonly ) TaskUUID;
+  field ( readonly ) ProjectUUID;
+
+  association _Project { with draft; }
+  association _Task { with draft; }
+
+  mapping for ztime_entry
+  {
+    TimeEntryUUID = time_entry_uuid;
+    TaskUUID = task_uuid;
+    EntryDate = entry_date;
+    HoursWorked = hours_worked;
+    UnitOfMeasure = unit_of_measure;
+    WorkDescription = work_description;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

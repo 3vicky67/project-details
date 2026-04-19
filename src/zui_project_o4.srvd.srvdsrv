@@ -1,0 +1,6 @@
+@EndUserText.label: 'Service Definition for Project Tracker'
+define service ZUI_PROJECT_O4 {
+  expose ZC_Project   as Project;
+  expose ZC_Task      as Task;
+  expose ZC_TimeEntry as TimeEntry;
+}
